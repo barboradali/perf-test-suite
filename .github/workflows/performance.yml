@@ -1,0 +1,21 @@
+name: Performance Tests
+
+on:
+  workflow_dispatch:   # allow manual run
+  schedule:
+    - cron: "0 0 * * *"   # every day at midnight UTC
+
+jobs:
+  k6-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up k6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Run k6 test
+        run: |
+          k6 run scripts/load_test.js
